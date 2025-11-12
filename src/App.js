@@ -23,13 +23,36 @@ import { Print, Clear } from '@mui/icons-material'
 import { config, generateInvoiceNumber, calculateTotalAmount } from './config'
 
 function App() {
+  // POLISH OPPORTUNITY #1: Input Flexibility
+  // Currently we only support "hours per day" which is uniform across all days.
+  // We could enhance this to allow:
+  // - Individual hour entry per day (edit each day separately)
+  // - Import hours from CSV/JSON
+  // - Copy/paste timesheet data
+  // - Quick presets (full-time: 40hrs/week, part-time: 20hrs/week, etc.)
   const [formData, setFormData] = useState({
     name: '',
     period: '',
     hoursPerDay: 8,
   })
+
+  // POLISH OPPORTUNITY #2: Enhanced Date Management
+  // Instead of just calculated dates, we could store:
+  // - Start date picker (instead of assuming "today")
+  // - End date picker (for custom ranges)
+  // - Exclude weekends/holidays option
+  // - Individual day editing (click to edit hours for specific day)
   const [calculatedDates, setCalculatedDates] = useState([])
   const [totalHours, setTotalHours] = useState(0)
+
+  // POLISH OPPORTUNITY #3: Enhanced Data Persistence
+  // Currently we only save the current timesheet to localStorage.
+  // We could enhance this to:
+  // - Save multiple invoices (invoice history with auto-incrementing IDs)
+  // - Export to JSON file (download backup of all data)
+  // - Import from JSON file (restore from backup)
+  // - Auto-save drafts with timestamps
+  // - Sync to cloud storage (future: Firebase, Supabase, etc.)
 
   // Load data from localStorage on component mount
   useEffect(() => {
@@ -92,10 +115,24 @@ function App() {
     }
   }
 
+  // POLISH OPPORTUNITY #4: Enhanced Export & File Generation
+  // Currently we only support browser print (which user can save as PDF).
+  // We could add multiple export formats:
+  // - PDF generation (using jsPDF or react-pdf) - no browser dependency
+  // - CSV export (for spreadsheet software)
+  // - Excel export (using xlsx library)
+  // - Email template generator (formatted HTML for email)
+  // - Multiple invoice formats/templates (modern, classic, minimal)
+  // - Attach invoice to email directly (with email client integration)
   const handlePrint = () => {
     window.print()
   }
 
+  // POLISH OPPORTUNITY #5: Smart Clear/Archive
+  // Instead of just deleting data, we could:
+  // - Archive completed invoices before clearing
+  // - Confirm dialog before clearing (prevent accidental data loss)
+  // - Quick "duplicate last invoice" to save time
   const handleClear = () => {
     setFormData({
       name: '',
@@ -115,12 +152,21 @@ function App() {
         </Typography>
         
         <Grid container spacing={4}>
+          {/* POLISH OPPORTUNITY #6: Enhanced Form Inputs
+              We could add:
+              - Date range picker (start/end date selection)
+              - Client selector dropdown (save multiple clients, quick select)
+              - Project/task description field
+              - Notes/comments field for each invoice
+              - Currency selector (USD, EUR, GBP, etc.)
+              - Tax rate input (for locations that require tax)
+          */}
           {/* Form Section */}
           <Grid item xs={12} md={6}>
             <Typography variant="h6" gutterBottom>
               Timesheet Details
             </Typography>
-            
+
             <Box component="form" sx={{ mt: 2 }}>
               <TextField
                 fullWidth
@@ -130,7 +176,7 @@ function App() {
                 margin="normal"
                 required
               />
-              
+
               <FormControl fullWidth margin="normal" required>
                 <InputLabel>Period</InputLabel>
                 <Select
@@ -145,7 +191,15 @@ function App() {
                   ))}
                 </Select>
               </FormControl>
-              
+
+              {/* POLISH OPPORTUNITY #7: Replace with Editable Timesheet Grid
+                  Instead of "hours per day", we could show a table where:
+                  - Each row is a day with date, day of week, hours worked
+                  - User can click any cell to edit individual day hours
+                  - Add/remove days manually
+                  - Drag to fill (like Excel)
+                  - Quick actions: "Skip weekends", "Set all to 8", etc.
+              */}
               <TextField
                 fullWidth
                 label="Hours per Day"
@@ -158,6 +212,16 @@ function App() {
               />
             </Box>
             
+            {/* POLISH OPPORTUNITY #8: Enhanced Action Buttons
+                We could add more actions:
+                - "Export as PDF" (direct download, no print dialog)
+                - "Export as CSV" (open in Excel/Google Sheets)
+                - "Export as JSON" (backup data)
+                - "Copy Email Template" (formatted for email)
+                - "Save to History" (archive this invoice)
+                - "Send via Email" (integrate with email client)
+                - Split button with dropdown for multiple export options
+            */}
             <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
               <Button
                 variant="contained"
@@ -168,7 +232,7 @@ function App() {
               >
                 Print Invoice
               </Button>
-              
+
               <Button
                 variant="outlined"
                 startIcon={<Clear />}
@@ -179,7 +243,15 @@ function App() {
               </Button>
             </Box>
           </Grid>
-          
+
+          {/* POLISH OPPORTUNITY #9: Enhanced Preview Features
+              We could add:
+              - Toggle between multiple invoice templates/themes
+              - Live edit mode (click any field in preview to edit)
+              - Preview for email template vs PDF vs print
+              - Side-by-side comparison of different periods
+              - Invoice validation warnings (missing info, unusual hours, etc.)
+          */}
           {/* Invoice Preview Section */}
           <Grid item xs={12} md={6}>
             <Typography variant="h6" gutterBottom>
@@ -188,6 +260,15 @@ function App() {
             
             {calculatedDates.length > 0 && formData.name && formData.period ? (
               <Paper variant="outlined" sx={{ p: 3 }}>
+                {/* POLISH OPPORTUNITY #10: Smart Invoice Numbering
+                    Current: Random timestamp-based number (regenerates on each render)
+                    Better approach:
+                    - Auto-increment based on invoice history (INV-001, INV-002, etc.)
+                    - Persist last invoice number in localStorage
+                    - Allow manual override
+                    - Support different number formats (by client, by year, etc.)
+                    - Show invoice date prominently
+                */}
                 {/* Invoice Header */}
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                   <Box>
@@ -251,6 +332,16 @@ function App() {
                   </Box>
                 </Box>
                 
+                {/* POLISH OPPORTUNITY #11: Interactive Timesheet Table
+                    We could make this table interactive:
+                    - Click to edit hours for individual days
+                    - Color-code weekends vs weekdays
+                    - Highlight days with 0 hours or unusual hours
+                    - Add task/project description column
+                    - Add notes column for each day
+                    - Support different rates for different tasks
+                    - Show running total as you scroll
+                */}
                 {/* Timesheet Table */}
                 <TableContainer>
                   <Table size="small">
@@ -298,6 +389,16 @@ function App() {
                   </Box>
                 </Box>
                 
+                {/* POLISH OPPORTUNITY #12: Enhanced Payment Information
+                    We could add:
+                    - Bank account details section (for wire transfers)
+                    - Payment links (PayPal, Stripe, Venmo, etc.)
+                    - QR code for quick payment
+                    - Multiple payment options
+                    - Late payment fee information
+                    - Discount for early payment
+                    - Payment instructions specific to client
+                */}
                 {/* Payment Terms */}
                 <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
                   <Typography variant="body2" gutterBottom>
@@ -321,5 +422,37 @@ function App() {
     </Container>
   )
 }
+
+// POLISH OPPORTUNITY #13: Additional Features to Consider
+//
+// Invoice History & Management:
+// - View all past invoices in a list/grid view
+// - Search and filter invoices (by date, client, amount, status)
+// - Mark invoices as paid/unpaid/overdue
+// - Dashboard with analytics (total earned, hours worked, etc.)
+//
+// Data Export & Integration:
+// - Batch export multiple invoices at once
+// - Export invoice history as CSV for accounting software
+// - Integration with QuickBooks, FreshBooks, or Xero
+// - Automatic backup to cloud storage (Google Drive, Dropbox)
+//
+// Validation & Error Handling:
+// - Form validation (email format, phone format, etc.)
+// - Warning for unusual hours (>12 hours/day, 0 hours, etc.)
+// - Prevent duplicate invoice numbers
+// - Check for missing required fields before export
+//
+// User Experience:
+// - Keyboard shortcuts (Ctrl+P for print, Ctrl+S for save, etc.)
+// - Dark mode toggle
+// - Multi-language support
+// - Onboarding tutorial for first-time users
+// - Undo/redo functionality
+//
+// Mobile Optimization:
+// - Better mobile layout (stack form and preview vertically)
+// - Touch-friendly controls for editing hours
+// - Mobile-specific export options (share via WhatsApp, SMS, etc.)
 
 export default App
