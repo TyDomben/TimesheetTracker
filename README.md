@@ -1,56 +1,98 @@
 # Timesheet Tracker
 
-A simple, elegant timesheet tracking application built with React and Material-UI. Perfect for freelancers, contractors, and anyone who needs to track their working hours and generate professional invoices.
+A professional, feature-rich timesheet tracking and invoicing application built with React and Material-UI. Perfect for freelancers, contractors, and anyone who needs to track their working hours and generate professional invoices.
 
-## 🚀 Features
+## Features
 
-### Version 1 (MVP) - Current
-- **Simple Form**: Enter your name, select a period (Weekly/Bi-weekly/Monthly), and set hours per day
-- **Auto-calculation**: Automatically calculates dates and total hours based on your selections
-- **Live Preview**: See your invoice preview update in real-time as you type
-- **Print to PDF**: Use your browser's print function to save invoices as PDF
-- **Data Persistence**: Your timesheet data is automatically saved to localStorage
-- **Clear & Reset**: Start fresh with the "Clear & Start New" button
-- **Responsive Design**: Works perfectly on both desktop and mobile devices
+### Core Functionality
+- **Editable Timesheet Grid**: Edit hours for each individual day with an intuitive interface
+- **Smart Date Selection**: Choose custom start dates for your timesheets (automatically sets weekends to 0 hours)
+- **Live Preview**: See your invoice preview update in real-time as you make changes
+- **Auto-calculation**: Automatically calculates dates, hours, and totals
 
-## 🛠️ Tech Stack
+### Export Options
+- **PDF Export**: Direct PDF download using jsPDF (no browser print dialog needed)
+- **CSV Export**: Export to CSV for use in Excel, Google Sheets, or accounting software
+- **Print Invoice**: Traditional browser print option for quick printing
+- **Professional Formatting**: All exports include complete invoice details and branding
+
+### Invoice Management
+- **Invoice History**: Automatically saves all exported invoices
+- **Smart Invoice Numbering**: Auto-incrementing invoice numbers (INV-0001, INV-0002, etc.)
+- **View Past Invoices**: Browse and review all previously created invoices
+- **Duplicate Invoices**: Quickly create a new invoice based on a previous one
+- **Delete Invoices**: Remove invoices from history when needed
+
+### User Experience
+- **Two-Tab Interface**: Separate tabs for creating invoices and viewing history
+- **Data Persistence**: Automatic saving to localStorage (never lose your work)
+- **Confirmation Dialogs**: Prevents accidental data loss with clear warnings
+- **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
+- **Weekend Detection**: Automatically highlights weekends and defaults them to 0 hours
+- **Real-time Totals**: See your total hours and amount update as you type
+
+## Tech Stack
 
 - **React 19** - Modern React with hooks
-- **Create React App** - Zero-configuration React setup
 - **Material-UI v5** - Beautiful, accessible components
+- **jsPDF** - Client-side PDF generation
+- **date-fns** - Modern date manipulation library
+- **file-saver** - File download functionality
 - **localStorage** - Client-side data persistence
-- **Browser Print API** - Native PDF generation
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 1. **Clone or download** this project
+
 2. **Install dependencies**:
    ```bash
    npm install
    ```
+
 3. **Set up environment variables**:
    - Copy `env.example` to `.env`
    - Update the values with your business information
    - See [Environment Setup](#environment-setup) section below
+
 4. **Start the development server**:
    ```bash
    npm start
    ```
+
 5. **Open your browser** to `http://localhost:3000`
 
-## 🎯 How to Use
+## How to Use
 
-1. **Enter your name** in the first field
-2. **Select a period** from the dropdown:
-   - Weekly (7 days)
-   - Bi-weekly (14 days) 
-   - Monthly (30 days)
-3. **Set your hours per day** (defaults to 8)
-4. **Watch the magic** - your invoice preview updates automatically!
-5. **Print your invoice** using the "Print Invoice" button
-6. **Save as PDF** from your browser's print dialog
+### Creating Your First Invoice
 
-## ⚙️ Environment Setup
+1. **Enter your name** in the "Your Name" field
+2. **Select a start date** for the timesheet period
+3. **Choose a period** (Weekly, Bi-weekly, or Monthly)
+4. **Edit individual day hours** in the timesheet grid that appears
+   - Weekends are automatically set to 0 hours
+   - Click any hour field to edit it
+   - Hours update in real-time
+5. **Review the invoice preview** on the right side
+6. **Export your invoice**:
+   - Click "Export Invoice" button
+   - Choose PDF, CSV, or Print
+   - Invoice is automatically saved to history
+
+### Managing Invoice History
+
+1. **Switch to the "Invoice History" tab** to see all saved invoices
+2. **View** any invoice by clicking the eye icon
+3. **Duplicate** an invoice to create a new one with the same details
+4. **Delete** invoices you no longer need
+
+### Keyboard Workflow Tips
+
+- Fill in name and date first
+- Select period to generate timesheet
+- Tab through the hours fields to quickly enter your time
+- Use the export button dropdown to choose your preferred format
+
+## Environment Setup
 
 The app uses environment variables to store your business information securely. This keeps sensitive data out of your code and makes it easy to change without touching the application.
 
@@ -75,31 +117,101 @@ The app uses environment variables to store your business information securely. 
    ```
 
 ### What Gets Configured:
-- **Company Information** - Name, address, phone, email
-- **Client Details** - Default client information
+- **Company Information** - Name, address, phone, email (appears on your invoices)
+- **Client Details** - Default client information (can be customized per invoice later)
 - **Billing Settings** - Hourly rate, job title, payment terms
-- **Invoice Settings** - Invoice prefix, numbering
+- **Invoice Settings** - Invoice prefix (e.g., "INV", "INVOICE"), numbering format
 
 ### Security Note:
 The `.env` file is automatically excluded from version control (in `.gitignore`), so your business information stays private.
 
-## 🔮 Future Roadmap
+## Invoice Numbering System
 
-### Version 2 - Planned Features
-- Invoice history (list of past invoices)
-- Better invoice numbering (auto-increment)
-- Export data as JSON backup
-- Invoice templates and customization
+The app uses a smart auto-incrementing invoice numbering system:
 
-### Version 3 - Advanced Features
-- PDF generation library (no browser dependency)
-- Email template generator
-- Cloud sync capabilities
-- Multiple client/project support
+- **Format**: `{PREFIX}-{NUMBER}` (e.g., INV-0001, INV-0002)
+- **Persistent**: Numbers are saved and continue incrementing even after page refresh
+- **No Duplicates**: Each invoice gets a unique number
+- **Customizable**: Change the prefix in your `.env` file
 
-## 🏗️ Getting Started with Create React App
+The invoice number is generated when you export (PDF or CSV), not when you create the timesheet. This means you can preview and edit without using up invoice numbers.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Exported File Formats
+
+### PDF Export
+- **Professional Layout**: Company branding, client information, detailed timesheet table
+- **Complete Details**: All invoice information, totals, payment terms
+- **File Naming**: `{InvoiceNumber}_{YourName}.pdf`
+- **No Browser Needed**: Direct download without print dialog
+
+### CSV Export
+- **Spreadsheet Ready**: Opens directly in Excel, Google Sheets, Numbers
+- **Structured Data**: Organized sections for easy reading
+- **Accounting Software Compatible**: Import into QuickBooks, FreshBooks, etc.
+- **File Naming**: `{InvoiceNumber}_{YourName}.csv`
+- **Complete Information**: All invoice details in text format
+
+## Data Persistence
+
+All data is automatically saved to your browser's localStorage:
+
+- **Current Invoice**: Auto-saves as you type (name, dates, hours)
+- **Invoice History**: Permanent storage of all exported invoices
+- **Invoice Counter**: Remembers the last invoice number used
+- **No Server Required**: Everything works offline
+
+**Note**: Data is stored per browser. If you clear your browser data or use a different browser, you'll lose your history. For backup, you can export invoices to CSV and save them separately.
+
+## Tips & Best Practices
+
+### For Freelancers
+- Set up your `.env` file once with your standard information
+- Export invoices regularly (don't let them pile up)
+- Use the duplicate feature for recurring clients
+- Keep CSV exports as backup records
+
+### For Contractors
+- Update the client information in `.env` for your main client
+- Use the start date picker to align with your pay periods
+- Export both PDF (for clients) and CSV (for your records)
+- Review the invoice history tab to track earnings
+
+### For Multiple Clients
+- Currently uses one default client from `.env`
+- For different clients, manually export and edit the client section in the exported file
+- Future versions will support multiple client profiles
+
+## Troubleshooting
+
+### Invoice Numbers Reset
+If your invoice numbers reset to 1, your browser's localStorage was cleared. To prevent this:
+- Don't clear browser data
+- Consider exporting your invoice history regularly
+- Keep CSV exports as backup
+
+### Exported Files Don't Download
+- Check your browser's download settings
+- Ensure pop-ups aren't blocked
+- Try a different browser
+
+### Hours Don't Save
+- Make sure you're clicking outside the input field after editing
+- Check that your browser allows localStorage
+- Try refreshing the page to see if data persists
+
+## Future Enhancements
+
+Potential features for future versions:
+- Multiple client management
+- Custom invoice templates
+- Tax calculation options
+- Cloud sync and backup
+- Email integration
+- Recurring invoice templates
+- Project/task tracking
+- Time tracking timer
+- Mobile app version
+- Multi-currency support
 
 ## Available Scripts
 
@@ -107,7 +219,7 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
+Runs the app in development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
@@ -115,8 +227,7 @@ You may also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in interactive watch mode.
 
 ### `npm run build`
 
@@ -128,42 +239,26 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Deployment
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This app can be deployed to any static hosting service:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Netlify**: Drag and drop the `build` folder
+- **Vercel**: Connect your Git repository
+- **GitHub Pages**: Use the `gh-pages` package
+- **AWS S3**: Upload build files to S3 bucket
+- **Firebase Hosting**: Use Firebase CLI
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Important**: Remember to set up your environment variables in your hosting platform's settings!
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## License
 
-## Learn More
+This project is open source and available for personal and commercial use.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Support
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+For issues, questions, or feature requests, please open an issue on GitHub.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built with ❤️ using React and Material-UI
