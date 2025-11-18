@@ -2,6 +2,15 @@
 
 A professional, feature-rich timesheet tracking and invoicing application built with React and Material-UI. Perfect for freelancers, contractors, and anyone who needs to track their working hours and generate professional invoices.
 
+> **🚀 Quick Start**: New to the project? Check out [QUICKSTART.md](./QUICKSTART.md) for a 2-minute setup guide!
+
+## Documentation
+
+- **[QUICKSTART.md](./QUICKSTART.md)** - Get started in under 2 minutes
+- **[CHANGELOG.md](./CHANGELOG.md)** - Version history and updates
+- **[TESTING_CHECKLIST.md](./TESTING_CHECKLIST.md)** - Comprehensive QA guide
+- **[LICENSE](./LICENSE)** - MIT License
+
 ## Features
 
 ### Core Functionality

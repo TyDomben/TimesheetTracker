@@ -505,10 +505,12 @@ function App() {
                 <TextField
                   fullWidth
                   label="Your Name"
+                  placeholder="Enter your full name"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   margin="normal"
                   required
+                  helperText="This will appear on your invoice as the service provider"
                 />
 
                 <TextField
@@ -520,6 +522,7 @@ function App() {
                   margin="normal"
                   InputLabelProps={{ shrink: true }}
                   required
+                  helperText="First day of the billing period"
                 />
 
                 <FormControl fullWidth margin="normal" required>
@@ -539,9 +542,14 @@ function App() {
 
                 {timesheet.length > 0 && (
                   <Box sx={{ mt: 3 }}>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Edit Hours (click to edit)
-                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                      <Typography variant="subtitle1">
+                        Edit Hours
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        💡 Weekends are pre-set to 0 hours
+                      </Typography>
+                    </Box>
                     <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 400 }}>
                       <Table size="small" stickyHeader>
                         <TableHead>
@@ -577,9 +585,14 @@ function App() {
                         </TableBody>
                       </Table>
                     </TableContainer>
-                    <Typography variant="body2" sx={{ mt: 1 }}>
-                      <strong>Total Hours:</strong> {totalHours.toFixed(2)}
-                    </Typography>
+                    <Box sx={{ mt: 2, p: 2, bgcolor: 'primary.50', borderRadius: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography variant="body1">
+                        <strong>Total Hours:</strong> {totalHours.toFixed(2)}
+                      </Typography>
+                      <Typography variant="body1" color="primary">
+                        <strong>Amount:</strong> ${(totalHours * config.billing.hourlyRate).toFixed(2)}
+                      </Typography>
+                    </Box>
                   </Box>
                 )}
               </Box>
